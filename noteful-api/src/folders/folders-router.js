@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
@@ -9,7 +11,7 @@ const jsonParser = express.json();
 const serializeFolder = folder => ({
   id: folder.id,
   name: xss(folder.foldername)
-})
+});
 
 folderRouter
   .route('/api/folders')
@@ -20,7 +22,7 @@ folderRouter
       .then(folder =>
         res.json(folder.map(serializeFolder))
       )
-      .catch(next)
+      .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
     const { foldername } = req.body;
@@ -29,7 +31,7 @@ folderRouter
     if (!foldername)
       return res.status(400).json({
         error: { message: 'Missing folder name' }
-      })
+      });
 
     FolderService.insertFolder(knexIns, newFolder)
       .then(folder =>
@@ -37,8 +39,8 @@ folderRouter
           .location(path.posix.join(req.originalUrl, `/${folder.id}`))
           .json(serializeFolder(folder))
       )
-      .catch(next)
-  })
+      .catch(next);
+  });
 
 folderRouter
   .route('/api/folders/:folderId')
@@ -47,8 +49,8 @@ folderRouter
 
     FolderService.getById(knexIns, req.params.folderId)
       .then((folder) => res.json(folder.map(serializeFolder)))
-      .catch(next)
-  })
+      .catch(next);
+  });
 
 
 module.exports = folderRouter;

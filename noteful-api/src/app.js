@@ -1,19 +1,22 @@
-require('dotenv').config()
-const express = require('express')
+'use strict';
+
+require('dotenv').config();
+const express = require('express');
 const logger = require('./logger');
-const morgan = require('morgan')
-const cors = require('cors')
-const helmet = require('helmet')
-const { NODE_ENV } = require('./config')
+const morgan = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
+const { NODE_ENV } = require('./config');
 const  folderRouter  = require('./folders/folders-router');
+const notesRouter = require('./notes/notes-router');
 
-const app = express()
+const app = express();
 
-const morganOption = (NODE_ENV === 'production')
+const morganOption = (NODE_ENV === 'production');
 
-app.use(morgan(morganOption))
-app.use(cors())
-app.use(helmet())
+app.use(morgan(morganOption));
+app.use(cors());
+app.use(helmet());
 
 // boiler plate for api bearer
 app.use(function validateBearerToken(req, res, next) {
@@ -28,16 +31,17 @@ app.use(function validateBearerToken(req, res, next) {
   next();
 });
 app.use(folderRouter);
+app.use(notesRouter);
 
 app.use(function errorHandler(error, req, res, next) {
-  let response
+  let response;
   if (NODE_ENV === 'production') {
-    response = { error: { message: 'server error' } }
+    response = { error: { message: 'server error' } };
   } else {
-    console.error(error)
-    response = { message: error.message, error }
+    console.error(error);
+    response = { message: error.message, error };
   }
-  res.status(500).json(response)
-})
+  res.status(500).json(response);
+});
 
-module.exports = app
+module.exports = app;

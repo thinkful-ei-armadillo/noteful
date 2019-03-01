@@ -1,8 +1,10 @@
+'use strict';
+
 const FolderService = {
   
   // gets all folders
   getAllFolder(knex){
-    return knex.select('*').from('folders')
+    return knex.select('*').from('folders');
   },
 
   // get folder by id
@@ -11,7 +13,7 @@ const FolderService = {
       .from('folders')
       .select('*')
       .join('notes','folders.id','=','notes.folderid')
-      .where('folders.id',id)
+      .where('folders.id',id);
   },
 
   // inserts folder 
@@ -20,9 +22,9 @@ const FolderService = {
       .insert(newFolder)
       .into('folders')
       .returning('*')
-      .then(row => row[0])
+      .then(row => row[0]);
   },
 
-}
+};
 
 module.exports = FolderService;
