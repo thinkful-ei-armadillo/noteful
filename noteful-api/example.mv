@@ -1,0 +1,10 @@
+NODE_ENV=development
+PORT=8000
+DB_URL="postgresql://postgres@localhost/noteful"
+TEST_DB_URL="postgresql://postgres@localhost/<TEST DATABASE HERE>"
+API_KEY=123
+MIGRATION_DB_HOST=localhost
+MIGRATION_DB_PORT=5432
+MIGRATION_DB_NAME=noteful
+MIGRATION_DB_USER=postgres
+MIGRATION_DB_PASS=
