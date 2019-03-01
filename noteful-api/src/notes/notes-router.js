@@ -83,7 +83,7 @@ notesRouter
           // .catch(next);
           NotesService.deleteById(knexIns, req.params.noteid)
             .then(note => 
-              res.status(204)
+              res.status(204).send('deleted')
                 .end())
             .catch(next);
         }});});
